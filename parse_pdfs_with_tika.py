@@ -7,7 +7,7 @@ import re
 import sys
 import pandas as pd
 from pandas import ExcelWriter
-import xlsxwriter
+#import xlsxwriter
 
 import matplotlib
 matplotlib.use('AGG')
@@ -20,7 +20,6 @@ from tika import parser
 
 def create_df(pdf_content, content_pattern, line_pattern, column_headings):
     """Create a Pandas DataFrame from lines of text in a PDF.
-
     Arguments:
     pdf_content -- all of the text Tika parses from the PDF
     content_pattern -- a pattern that identifies the set of lines
@@ -67,7 +66,6 @@ def create_df(pdf_content, content_pattern, line_pattern, column_headings):
 
 def create_df_2(pdf_content, content_pattern, line_pattern, column_headings):
     """Create a Pandas DataFrame from lines of text in a PDF.
-
     Arguments:
     pdf_content -- all of the text Tika parses from the PDF
     content_pattern -- a pattern that identifies the set of lines
@@ -185,11 +183,9 @@ fin_data = []
             if unit == len(temp_list)-1:
                 list_builder.append(string_builder)
         else:
-
             if not string_builder:
                 print("adding " + temp_list[unit])
                 list_builder.append(temp_list[unit])
-
             else:
                 print("adding "+string_builder)
                 list_builder.append(string_builder)
@@ -198,7 +194,7 @@ fin_data = []
     fin_data.append(list_builder)
 print(fin_data)"""
 
-
+pdf2 = ['The trading price of our stock has at times experienced substantial price volatility and may continue to be volatile. For example, from January 1,']
 char_list = [',','.','/',"'",'"','(',')','[',']','|']
 for spot in pdf2:
     print(spot)
@@ -209,8 +205,11 @@ for spot in pdf2:
     temp_list = []
     stringer_num = ''
     if spot:
-        for unit in range(len(spot)):
-
+        unit = 0
+        print(str(len(spot)))
+        while unit < (len(spot)):
+            print(str(unit))
+            print(str(spot[unit]))
             #print(spot[unit])
 
             if (unit+1) < (len(spot)) and spot[unit+1].isdigit() and spot[unit] == '(':
@@ -231,32 +230,49 @@ for spot in pdf2:
                     temp_list.append(stringer_num)
                     stringer_num = ''
                 stringer += spot[unit]
+                unit += 1
             elif spot[unit].isdigit():
                 if stringer:
                     temp_list.append(stringer)
                     stringer = ''
-                if (unit+1) < (len(spot)):
-
-                    while spot[unit].isdigit() or spot[unit] == ',' and (unit) < (len(spot)):
+                if unit+1 < len(spot):
+                    if spot[unit+1].isdigit() or spot[unit+1] == ',':
+                        while unit+1 < len(spot) and spot[unit].isdigit() or spot[unit] == ',':
+                            if (unit + 1) == len(spot) and spot[unit].isdigit():
+                                stringer_num += spot[unit]
+                                unit += 1
+                            if (unit+1) == len(spot) and spot[unit] == ',':
+                                temp_list.append(stringer_num)
+                                stringer_num = ''
+                                stringer += spot[unit]
+                                unit += 1
+                            else:
+                                stringer_num += spot[unit]
+                                unit += 1
+                        print(str(stringer_num))
+                        temp_list.append(stringer_num)
+                        stringer_num = ''
+                        stringer += spot[unit]
+                        unit += 1
+                    else:
                         stringer_num += spot[unit]
-                        print(stringer_num + ' ' + str(unit) + '/' + str(len(spot)-1))
-                        if (unit+1) < len(spot):
-                            unit += 1
-                        else:
-                            print(stringer_num)
-                            #stringer_num += spot[unit]
-                            temp_list.append(stringer_num)
-                            stringer_num = ''
-                            unit += 1
-                            break
+                        temp_list.append(stringer_num)
+                        stringer_num = ''
+                        unit += 1
                 else:
+                    stringer_num+= spot[unit]
                     temp_list.append(stringer_num)
                     stringer_num = ''
+                    unit += 1
             else:
                 if stringer_num:
                     temp_list.append(stringer_num)
                     stringer_num = ''
-                stringer += spot[unit]
+                if spot[unit] != '$':
+                    stringer += spot[unit]
+                    unit += 1
+                else:
+                    unit += 1
         if stringer:
             temp_list.append(stringer)
         if stringer_num:
@@ -275,6 +291,3 @@ print(new_pdf)
 """writer = pd.ExcelWriter('PythonExport.xlsx', engine='xlsxwriter')
 expense_df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()"""
-
-
-
