@@ -194,7 +194,7 @@ fin_data = []
     fin_data.append(list_builder)
 print(fin_data)"""
 
-pdf2 = ['The trading price of our stock has at times experienced substantial price volatility and may continue to be volatile. For example, from January 1,']
+
 char_list = [',','.','/',"'",'"','(',')','[',']','|']
 for spot in pdf2:
     print(spot)
@@ -206,13 +206,17 @@ for spot in pdf2:
     stringer_num = ''
     if spot:
         unit = 0
-        print(str(len(spot)))
+        #print(str(len(spot)))
         while unit < (len(spot)):
-            print(str(unit))
-            print(str(spot[unit]))
+         #   print(str(unit))
+          #  print(str(spot[unit]))
+
             #print(spot[unit])
 
             if (unit+1) < (len(spot)) and spot[unit+1].isdigit() and spot[unit] == '(':
+                if stringer:
+                    temp_list.append(stringer)
+                    stringer = ''
                 running = True
                 neg_num = '-'
                 while running:
@@ -222,7 +226,7 @@ for spot in pdf2:
                     else:
                         if spot[unit+1] != ')':
                             neg_num += spot[unit+1]
-                        unit += 1
+                        unit += 2
                         temp_list.append(neg_num)
                         running = False
             elif spot[unit].isalpha() or spot[unit] in char_list:
@@ -235,9 +239,9 @@ for spot in pdf2:
                 if stringer:
                     temp_list.append(stringer)
                     stringer = ''
-                if unit+1 < len(spot):
+                if (unit+1) < len(spot):
                     if spot[unit+1].isdigit() or spot[unit+1] == ',':
-                        while unit+1 < len(spot) and spot[unit].isdigit() or spot[unit] == ',':
+                        while (unit+1) < len(spot) and spot[unit].isdigit() or spot[unit] == ',':
                             if (unit + 1) == len(spot) and spot[unit].isdigit():
                                 stringer_num += spot[unit]
                                 unit += 1
@@ -249,11 +253,18 @@ for spot in pdf2:
                             else:
                                 stringer_num += spot[unit]
                                 unit += 1
-                        print(str(stringer_num))
-                        temp_list.append(stringer_num)
-                        stringer_num = ''
-                        stringer += spot[unit]
-                        unit += 1
+                            if(unit+1) == len(spot):
+                                break
+                        if(spot[unit].isdigit()):
+                            stringer_num += spot[unit]
+                            temp_list.append(stringer_num)
+                            stringer_num = ''
+                            unit+= 1
+                        else:
+                            temp_list.append(stringer_num)
+                            stringer_num = ''
+                            stringer += spot[unit]
+                            unit += 1
                     else:
                         stringer_num += spot[unit]
                         temp_list.append(stringer_num)
