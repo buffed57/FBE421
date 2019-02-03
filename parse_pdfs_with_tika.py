@@ -290,7 +290,45 @@ for spot in pdf2:
             temp_list.append((stringer_num))
 
     if temp_list:
+        if len(temp_list) > 2:
+            temp_line = ''
+            temp_line2 = ''
+            count = 1
+            running = True
+            print(temp_list)
+            print('In loop')
+            while running:
+                    if temp_list[count-1].isalpha() and temp_list[count].isdigit() and temp_list[count+1].isalpha():
+                        temp_line = temp_list[count]
+                        temp_line2 = temp_list[count+1]
+                        del temp_list[count]
+                        del temp_list[count]
+                        temp_list[count-1] += ' ' + temp_line + ' ' + temp_line2
+                        print(temp_list[count])
+                        print('1')
+                        if len(temp_list) < 2:
+                            running = False
+                    elif temp_list[count-1].isdigit() and temp_list[count].isalpha():
+                        temp_line = temp_list[count]
+                        temp_line2 = temp_list[count + 1]
+                        del temp_list[count]
+                        del temp_list[count]
+                        temp_list[count - 1] += ' ' + temp_line + ' ' + temp_line2
+                        print('2')
+                        if len(temp_list) < 2:
+                            running = False
+                    elif len(temp_list) == 3:
+                        print(' 3')
+                        running = False
+                    else:
+                        print('4')
+                        if (count+1) >= len(temp_list):
+                            running = False
+                        else:
+                            count += 1
+        print(temp_list)
         new_pdf.append(temp_list)
+
 print(new_pdf)
 
         #print(unit)
