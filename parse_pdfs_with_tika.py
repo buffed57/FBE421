@@ -328,22 +328,22 @@ for spot in range(len(pdf2) - 1):
                 for year in pdf2[spot]:
                     if year.isdigit():
                         year_list.append(year)
-                print(year_list)
+
                 income_statement['Years'] = year_list
                 spot += 1
                 end_num = (len(pdf2[spot]) - 1)
+                temp_num_list = []
+                temp_info_name = ''
                 if pdf2[spot][end_num][0].isdigit() or pdf2[spot][end_num][0] == '-':
                     running = True
                     info_count = (len(pdf2[spot]) - 1)
-                    temp_num_list = []
-                    temp_info_name = ''
                     while running:
-                        print(pdf2[spot][info_count])
+
                         if pdf2[spot][info_count][0].isdigit() or pdf2[spot][info_count][0] == '-':
                             temp_num_list.append(pdf2[spot][info_count])
                             info_count -= 1
 
-                        elif not pdf2[spot][info_count][0].isdigit() or not pdf2[spot][info_count][0] == '-':
+                        elif pdf2[spot][info_count][0].isalpha():
                             if temp_num_list:
                                 temp_num_list = list(reversed(temp_num_list))
                                 nameBuild = True
@@ -354,8 +354,15 @@ for spot in range(len(pdf2) - 1):
                                     else:
                                         temp_info_name += pdf2[spot][info_count]
                                         income_statement[temp_info_name] = temp_num_list
+                                        print(income_statement)
+                                        temp_info_name = ''
                                         nameBuild = False
-                                        running = False
+                                        spot += 1
+                                        if spot < len(pdf2)-1:
+                                            info_count = len(pdf2[spot]) - 1
+                                        else:
+                                            running = False
+
                             else:
                                 spot += 1
                                 running = False
