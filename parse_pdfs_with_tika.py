@@ -165,9 +165,15 @@ pdf = pdf.replace('\n\n', '\n')
 #print(revenue_df)
 #print(revenue_df2)
 #print(pdf2)
-pdf2 = pdf2.splitlines()
 
-print(pdf2)
+
+
+
+
+pdf2 = pdf2.splitlines()
+pdf2 = [['Table of Contents Alphabet Inc.'], ['Alphabet Inc.'], ['CONSOLIDATED STATEMENTS OF INCOME'], ['(In millions, except per share amounts)'], [' Year Ended December ', '31', ','], [' ', '2015', '  ', '2016', '  ', '2017'], ['Revenues  ', '74,989', '   ', '90,272', '   ', '110,855'], ['Costs and expenses:      '], ['Cost of revenues ', '28,164', '  ', '35,138', '  ', '45,583'], ['Research and development ', '12,282', '  ', '13,948', '  ', '16,625'], ['Sales and marketing ', '9,047', '  ', '10,485', '  ', '12,893'], ['General and administrative ', '6,136', '  ', '6,985', '  ', '6,872'], ['European Commission fine ', '0', '  ', '0', '  ', '2,736'], ['Total costs and expenses ', '55,629', '  ', '66,556', '  ', '84,709'], ['Income from operations ', '19,360', '  ', '23,716', '  ', '26,146'], ['Other income (expense), net ', '291', '  ', '434', '  ', '1,047'], ['Income before income taxes ', '19,651', '  ', '24,150', '  ', '27,193'], ['Provision for income taxes ', '3,303', '  ', '4,672', '  ', '14,531'], ['Net income  ', '16,348', '   ', '19,478', '   ', '12,662']]
+
+#print(pdf2)
 new_pdf = []
 fin_data = []
 """for spot in range(len(pdf2)):
@@ -193,12 +199,17 @@ fin_data = []
     print(list_builder)
     fin_data.append(list_builder)
 print(fin_data)"""
-
-
-char_list = [',','.','/',"'",'"','(',')','[',']','|']
-for spot in pdf2:
-    print(spot)
-    spot = re.sub(' +', ' ', spot)
+fin_info_list = []
+date_words = ["Year Ended", "As of","Three Months Ended","Twelve Months Ended","Quarter Ended",\
+"Payments Due By Period", "January","February","March","April","May","June","July","August","September","October",\
+"November","December","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+char_list = [',','.','/',"'",'"','(',')','[',']','|','-','a','A','b','B','c','C','d','D',\
+             'e','E','f','F','g','G','h','H','i','I','j','J','k','K','l','L','m','M','n','N',\
+             'o','O','p','P','q','Q','r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z','Z']
+spot = 0
+for spot in range(len(pdf2)-1):
+    #print(spot)
+    #spot = re.sub(' +', ' ', spot)
     #print(spot)
     stringer = ''
     count = 0
@@ -207,71 +218,71 @@ for spot in pdf2:
     if spot:
         unit = 0
         #print(str(len(spot)))
-        while unit < (len(spot)):
+        while unit < (len(pdf2[spot])):
          #   print(str(unit))
           #  print(str(spot[unit]))
 
             #print(spot[unit])
 
-            if (unit+1) < (len(spot)) and spot[unit+1].isdigit() and spot[unit] == '(':
+            if (unit+1) < (len(pdf2[spot])) and pdf2[spot][unit+1].isdigit() and pdf2[spot][unit] == '(':
                 if stringer:
                     temp_list.append(stringer)
                     stringer = ''
                 running = True
                 neg_num = '-'
                 while running:
-                    if spot[unit+1].isdigit() or spot[unit+1] == ',' and (unit+1) < len(spot):
-                        neg_num += spot[unit+1]
+                    if pdf2[spot][unit+1].isdigit() or pdf2[spot][unit+1] == ',' and (unit+1) < len(pdf2[spot]):
+                        neg_num += pdf2[spot][unit+1]
                         unit += 1
                     else:
-                        if spot[unit+1] != ')':
-                            neg_num += spot[unit+1]
+                        if pdf2[spot][unit+1] != ')':
+                            neg_num += pdf2[spot][unit+1]
                         unit += 2
                         temp_list.append(neg_num)
                         running = False
-            elif spot[unit].isalpha() or spot[unit] in char_list:
+            elif pdf2[spot][unit].isalpha() or pdf2[spot][unit] in char_list:
                 if stringer_num:
                     temp_list.append(stringer_num)
                     stringer_num = ''
-                stringer += spot[unit]
+                stringer += pdf2[spot][unit]
                 unit += 1
-            elif spot[unit].isdigit():
+            elif pdf2[spot][unit].isdigit():
                 if stringer:
                     temp_list.append(stringer)
                     stringer = ''
-                if (unit+1) < len(spot):
-                    if spot[unit+1].isdigit() or spot[unit+1] == ',':
-                        while (unit+1) < len(spot) and spot[unit].isdigit() or spot[unit] == ',':
-                            if (unit + 1) == len(spot) and spot[unit].isdigit():
+                if (unit+1) < len(pdf2[spot]):
+                    if pdf2[spot][unit+1].isdigit() or pdf2[spot][unit+1] == ',':
+                        while (unit+1) < len(pdf2[spot]) and pdf2[spot][unit].isdigit() or pdf2[spot][unit] == ',':
+                            if (unit + 1) == len(pdf2[spot]) and pdf2[spot][unit].isdigit():
                                 stringer_num += spot[unit]
                                 unit += 1
-                            if (unit+1) == len(spot) and spot[unit] == ',':
+                            if (unit+1) == len(pdf2[spot]) and pdf2[spot][unit] == ',':
                                 temp_list.append(stringer_num)
                                 stringer_num = ''
                                 stringer += spot[unit]
                                 unit += 1
                             else:
-                                stringer_num += spot[unit]
+                                stringer_num += pdf2[spot][unit]
                                 unit += 1
-                            if(unit+1) == len(spot):
+                            if(unit+1) == len(pdf2[spot]):
                                 break
-                        if(spot[unit].isdigit()):
-                            stringer_num += spot[unit]
+                        if(pdf2[spot][unit].isdigit()):
+                            stringer_num += pdf2[spot][unit]
                             temp_list.append(stringer_num)
                             stringer_num = ''
                             unit+= 1
                         else:
                             temp_list.append(stringer_num)
                             stringer_num = ''
-                            stringer += spot[unit]
+                            stringer += pdf2[spot][unit]
                             unit += 1
                     else:
-                        stringer_num += spot[unit]
+                        stringer_num += pdf2[spot][unit]
                         temp_list.append(stringer_num)
                         stringer_num = ''
                         unit += 1
                 else:
-                    stringer_num+= spot[unit]
+                    stringer_num+= pdf2[spot][unit]
                     temp_list.append(stringer_num)
                     stringer_num = ''
                     unit += 1
@@ -279,8 +290,8 @@ for spot in pdf2:
                 if stringer_num:
                     temp_list.append(stringer_num)
                     stringer_num = ''
-                if spot[unit] != '$':
-                    stringer += spot[unit]
+                if pdf2[spot][unit] != '$':
+                    stringer += pdf2[spot][unit]
                     unit += 1
                 else:
                     unit += 1
@@ -290,47 +301,31 @@ for spot in pdf2:
             temp_list.append((stringer_num))
 
     if temp_list:
-        if len(temp_list) > 2:
-            temp_line = ''
-            temp_line2 = ''
-            count = 1
-            running = True
-            print(temp_list)
-            print('In loop')
-            while running:
-                    if temp_list[count-1].isalpha() and temp_list[count].isdigit() and temp_list[count+1].isalpha():
-                        temp_line = temp_list[count]
-                        temp_line2 = temp_list[count+1]
-                        del temp_list[count]
-                        del temp_list[count]
-                        temp_list[count-1] += ' ' + temp_line + ' ' + temp_line2
-                        print(temp_list[count])
-                        print('1')
-                        if len(temp_list) < 2:
-                            running = False
-                    elif temp_list[count-1].isdigit() and temp_list[count].isalpha():
-                        temp_line = temp_list[count]
-                        temp_line2 = temp_list[count + 1]
-                        del temp_list[count]
-                        del temp_list[count]
-                        temp_list[count - 1] += ' ' + temp_line + ' ' + temp_line2
-                        print('2')
-                        if len(temp_list) < 2:
-                            running = False
-                    elif len(temp_list) == 3:
-                        print(' 3')
-                        running = False
-                    else:
-                        print('4')
-                        if (count+1) >= len(temp_list):
-                            running = False
-                        else:
-                            count += 1
-        print(temp_list)
+
+        if any(char in temp_list[count] for char in date_words):
+            print(pdf2[spot])
+            print("in")
+            if pdf2[spot+1][1].isdigit():
+                spot += 1
+                year_list = []
+                for year in pdf2[spot]:
+                    if year.isdigit():
+                        year_list.append(year)
+                print(year_list)
+                spot += 1
+                end_num = (len(pdf2[spot])-1)
+                if pdf2[spot][end_num].isdigit():
+                    
+                fin_info_list.append(pdf2[spot])
+
         new_pdf.append(temp_list)
 
-print(new_pdf)
+    spot += 1
 
+
+    #print(new_pdf)
+print(new_pdf)
+print(fin_info_list)
         #print(unit)
 #print(new_pdf)
     # Print the total expenditures and total revenues in the budget to the screen
@@ -340,3 +335,49 @@ print(new_pdf)
 """writer = pd.ExcelWriter('PythonExport.xlsx', engine='xlsxwriter')
 expense_df.to_excel(writer, sheet_name='Sheet1', index=False)
 writer.save()"""
+
+""" if len(temp_list) > 2:
+            temp_line = ''
+            temp_line2 = ''
+            count = 1
+            print(str(count))
+            running = True
+            print(temp_list)
+            print('In loop')
+            while running:
+                    print(str(count))
+                    if temp_list[count] == ' ' or temp_list[count] == '':
+                        del temp_list[count]
+                        if len(temp_list) <= 2:
+                            running = False
+                        temp_list[count - 1] += ' ' + temp_line + ' ' + temp_line2
+                    elif any(char in temp_list[count-1] for char in char_list) and \
+                            temp_list[count][0].isdigit() and \
+                            any(char in temp_list[count+1] for char in char_list):
+                        temp_line = temp_list[count]
+                        temp_line2 = temp_list[count+1]
+                        del temp_list[count]
+                        del temp_list[count]
+                        temp_list[count-1] += ' ' + temp_line + ' ' + temp_line2
+                        #print(temp_list[count])
+                        print('1')
+                        if len(temp_list) <= 2:
+                            running = False
+                    elif temp_list[count-1].isdigit() and any(char in temp_list[count] for char in char_list):
+                        temp_line = temp_list[count]
+                        temp_line2 = temp_list[count + 1]
+                        del temp_list[count]
+                        del temp_list[count]
+                        temp_list[count - 1] += ' ' + temp_line + ' ' + temp_line2
+                        print('2')
+                        if len(temp_list) <= 2:
+                            running = False
+                    elif len(temp_list) == 3:
+                        print(' 3')
+                        running = False
+                    else:
+                        print('4')
+                        if (count+1) >= len(temp_list):
+                            running = False
+                        else:
+                            count += 1"""
