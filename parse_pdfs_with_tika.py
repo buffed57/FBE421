@@ -7,16 +7,18 @@ import re
 import sys
 import pandas as pd
 from pandas import ExcelWriter
-#import xlsxwriter
+# import xlsxwriter
 
 import matplotlib
+
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
-#pd.options.display.mpl_style = 'default'
+# pd.options.display.mpl_style = 'default'
 
 from tika import parser
 
-#input_path = sys.argv[1]
+
+# input_path = sys.argv[1]
 
 def create_df(pdf_content, content_pattern, line_pattern, column_headings):
     """Create a Pandas DataFrame from lines of text in a PDF.
@@ -48,8 +50,8 @@ def create_df(pdf_content, content_pattern, line_pattern, column_headings):
         agency = line_match.group(1).strip().replace(',', '')
         # Grab the dollar values, strip whitespace, replace dashes with 0.0, and remove $s and commas
         # group(2): the value inside the second set of parentheses in line_pattern
-        values_string = line_match.group(2).strip().\
-        replace('- ', '0.0 ').replace('$', '').replace(',', '')
+        values_string = line_match.group(2).strip(). \
+            replace('- ', '0.0 ').replace('$', '').replace(',', '')
         # Split on whitespace and convert to float to create a sequence of floating-point numbers
         values = map(float, values_string.split())
         # Append the agency name or revenue source into line_items
@@ -109,6 +111,7 @@ def create_df_2(pdf_content, content_pattern, line_pattern, column_headings):
     df = pd.DataFrame(list_of_line_items, columns=column_headings)
     return df
 
+
 # In the Expenditures table, grab all of the lines between Totals and General Government
 expenditures_pattern = r'Totals\n+(Legislative, Judicial, Executive.*?)\nGeneral Government:'
 out_pattern = r'CONSOLIDATED STATEMENT OF INCOME'
@@ -133,47 +136,57 @@ expense_columns = ['Agency', 'General', 'Special', 'Bond', 'Totals']
 revenue_columns = ['Source', 'General', 'Special', 'Total', 'Change']
 
 # Iterate over all PDF files in the folder and process each one in turn
-#for input_file in glob.glob(os.path.join('SummaryCharts', '*.pdf')):
-    # Grab the PDF's file name
+# for input_file in glob.glob(os.path.join('SummaryCharts', '*.pdf')):
+# Grab the PDF's file name
 filename = 'SummaryCharts.pdf'
 filename2 = 'out.pdf'
 parsedPDF2 = parser.from_file(filename2)
 pdf2 = parsedPDF2["content"]
 pdf2 = pdf2.replace('\n\n', '\n')
-#print(pdf2)
-    #print(filename)
-    # Remove .pdf from the filename so we can use it as the name of the plot and PNG
+# print(pdf2)
+# print(filename)
+# Remove .pdf from the filename so we can use it as the name of the plot and PNG
 
 
-    # Use Tika to parse the PDF
+# Use Tika to parse the PDF
 parsedPDF = parser.from_file('SummaryCharts.pdf')
-#print(parsedPDF)
-    # Extract the text content from the parsed PDF
+# print(parsedPDF)
+# Extract the text content from the parsed PDF
 pdf = parsedPDF["content"]
-#print(pdf)
-    # Convert double newlines into single newlines
+# print(pdf)
+# Convert double newlines into single newlines
 pdf = pdf.replace('\n\n', '\n')
-#print(pdf)
+# print(pdf)
 
-    # Create a Pandas DataFrame from the lines of text in the Expenditures table in the PDF
-#expense_df = create_df(pdf, expenditures_pattern, expense_pattern, expense_columns)
-    # Create a Pandas DataFrame from the lines of text in the Revenues table in the PDF
-#revenue_df = create_df(pdf, revenues_pattern, revenue_pattern, revenue_columns)
-#print(revenue_df)
-#revenue_df2 = create_df_2(pdf2, out_pattern, out_pattern2, out_column)
-#print(expense_df)
-#print(revenue_df)
-#print(revenue_df2)
-#print(pdf2)
-
-
-
+# Create a Pandas DataFrame from the lines of text in the Expenditures table in the PDF
+# expense_df = create_df(pdf, expenditures_pattern, expense_pattern, expense_columns)
+# Create a Pandas DataFrame from the lines of text in the Revenues table in the PDF
+# revenue_df = create_df(pdf, revenues_pattern, revenue_pattern, revenue_columns)
+# print(revenue_df)
+# revenue_df2 = create_df_2(pdf2, out_pattern, out_pattern2, out_column)
+# print(expense_df)
+# print(revenue_df)
+# print(revenue_df2)
+# print(pdf2)
 
 
 pdf2 = pdf2.splitlines()
-pdf2 = [['Table of Contents Alphabet Inc.'], ['Alphabet Inc.'], ['CONSOLIDATED STATEMENTS OF INCOME'], ['(In millions, except per share amounts)'], [' Year Ended December ', '31', ','], [' ', '2015', '  ', '2016', '  ', '2017'], ['Revenues  ', '74,989', '   ', '90,272', '   ', '110,855'], ['Costs and expenses:      '], ['Cost of revenues ', '28,164', '  ', '35,138', '  ', '45,583'], ['Research and development ', '12,282', '  ', '13,948', '  ', '16,625'], ['Sales and marketing ', '9,047', '  ', '10,485', '  ', '12,893'], ['General and administrative ', '6,136', '  ', '6,985', '  ', '6,872'], ['European Commission fine ', '0', '  ', '0', '  ', '2,736'], ['Total costs and expenses ', '55,629', '  ', '66,556', '  ', '84,709'], ['Income from operations ', '19,360', '  ', '23,716', '  ', '26,146'], ['Other income (expense), net ', '291', '  ', '434', '  ', '1,047'], ['Income before income taxes ', '19,651', '  ', '24,150', '  ', '27,193'], ['Provision for income taxes ', '3,303', '  ', '4,672', '  ', '14,531'], ['Net income  ', '16,348', '   ', '19,478', '   ', '12,662']]
+pdf2 = [['Table of Contents Alphabet Inc.'], ['Alphabet Inc.'], ['CONSOLIDATED STATEMENTS OF INCOME'],
+        ['(In millions, except per share amounts)'], [' Year Ended December ', '31', ','],
+        [' ', '2015', '  ', '2016', '  ', '2017'], ['Revenues  ', '74,989', '   ', '90,272', '   ', '110,855'],
+        ['Costs and expenses:      '], ['Cost of revenues ', '28,164', '  ', '35,138', '  ', '45,583'],
+        ['Research and development ', '12,282', '  ', '13,948', '  ', '16,625'],
+        ['Sales and marketing ', '9,047', '  ', '10,485', '  ', '12,893'],
+        ['General and administrative ', '6,136', '  ', '6,985', '  ', '6,872'],
+        ['European Commission fine ', '0', '  ', '0', '  ', '2,736'],
+        ['Total costs and expenses ', '55,629', '  ', '66,556', '  ', '84,709'],
+        ['Income from operations ', '19,360', '  ', '23,716', '  ', '26,146'],
+        ['Other income (expense), net ', '291', '  ', '434', '  ', '1,047'],
+        ['Income before income taxes ', '19,651', '  ', '24,150', '  ', '27,193'],
+        ['Provision for income taxes ', '3,303', '  ', '4,672', '  ', '14,531'],
+        ['Net income  ', '16,348', '   ', '19,478', '   ', '12,662']]
 
-#print(pdf2)
+# print(pdf2)
 new_pdf = []
 fin_data = []
 """for spot in range(len(pdf2)):
@@ -200,43 +213,47 @@ fin_data = []
     fin_data.append(list_builder)
 print(fin_data)"""
 fin_info_list = []
-date_words = ["Year Ended", "As of","Three Months Ended","Twelve Months Ended","Quarter Ended",\
-"Payments Due By Period", "January","February","March","April","May","June","July","August","September","October",\
-"November","December","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-char_list = [',','.','/',"'",'"','(',')','[',']','|','-','a','A','b','B','c','C','d','D',\
-             'e','E','f','F','g','G','h','H','i','I','j','J','k','K','l','L','m','M','n','N',\
-             'o','O','p','P','q','Q','r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z','Z']
+date_words = ["Year Ended", "As of", "Three Months Ended", "Twelve Months Ended", "Quarter Ended", \
+              "Payments Due By Period", "January", "February", "March", "April", "May", "June", "July", "August",
+              "September", "October", \
+              "November", "December", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+              "Dec"]
+char_list = [',', '.', '/', "'", '"', '(', ')', '[', ']', '|', '-', 'a', 'A', 'b', 'B', 'c', 'C', 'd', 'D', \
+             'e', 'E', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'L', 'm', 'M', 'n', 'N', \
+             'o', 'O', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'S', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y',
+             'Y', 'z', 'Z']
 spot = 0
-for spot in range(len(pdf2)-1):
-    #print(spot)
-    #spot = re.sub(' +', ' ', spot)
-    #print(spot)
+income_statement = {}
+for spot in range(len(pdf2) - 1):
+    # print(spot)
+    # spot = re.sub(' +', ' ', spot)
+    # print(spot)
     stringer = ''
     count = 0
     temp_list = []
     stringer_num = ''
     if spot:
         unit = 0
-        #print(str(len(spot)))
+        # print(str(len(spot)))
         while unit < (len(pdf2[spot])):
-         #   print(str(unit))
-          #  print(str(spot[unit]))
+            #   print(str(unit))
+            #  print(str(spot[unit]))
 
-            #print(spot[unit])
+            # print(spot[unit])
 
-            if (unit+1) < (len(pdf2[spot])) and pdf2[spot][unit+1].isdigit() and pdf2[spot][unit] == '(':
+            if (unit + 1) < (len(pdf2[spot])) and pdf2[spot][unit + 1].isdigit() and pdf2[spot][unit] == '(':
                 if stringer:
                     temp_list.append(stringer)
                     stringer = ''
                 running = True
                 neg_num = '-'
                 while running:
-                    if pdf2[spot][unit+1].isdigit() or pdf2[spot][unit+1] == ',' and (unit+1) < len(pdf2[spot]):
-                        neg_num += pdf2[spot][unit+1]
+                    if pdf2[spot][unit + 1].isdigit() or pdf2[spot][unit + 1] == ',' and (unit + 1) < len(pdf2[spot]):
+                        neg_num += pdf2[spot][unit + 1]
                         unit += 1
                     else:
-                        if pdf2[spot][unit+1] != ')':
-                            neg_num += pdf2[spot][unit+1]
+                        if pdf2[spot][unit + 1] != ')':
+                            neg_num += pdf2[spot][unit + 1]
                         unit += 2
                         temp_list.append(neg_num)
                         running = False
@@ -250,13 +267,13 @@ for spot in range(len(pdf2)-1):
                 if stringer:
                     temp_list.append(stringer)
                     stringer = ''
-                if (unit+1) < len(pdf2[spot]):
-                    if pdf2[spot][unit+1].isdigit() or pdf2[spot][unit+1] == ',':
-                        while (unit+1) < len(pdf2[spot]) and pdf2[spot][unit].isdigit() or pdf2[spot][unit] == ',':
+                if (unit + 1) < len(pdf2[spot]):
+                    if pdf2[spot][unit + 1].isdigit() or pdf2[spot][unit + 1] == ',':
+                        while (unit + 1) < len(pdf2[spot]) and pdf2[spot][unit].isdigit() or pdf2[spot][unit] == ',':
                             if (unit + 1) == len(pdf2[spot]) and pdf2[spot][unit].isdigit():
                                 stringer_num += spot[unit]
                                 unit += 1
-                            if (unit+1) == len(pdf2[spot]) and pdf2[spot][unit] == ',':
+                            if (unit + 1) == len(pdf2[spot]) and pdf2[spot][unit] == ',':
                                 temp_list.append(stringer_num)
                                 stringer_num = ''
                                 stringer += spot[unit]
@@ -264,13 +281,13 @@ for spot in range(len(pdf2)-1):
                             else:
                                 stringer_num += pdf2[spot][unit]
                                 unit += 1
-                            if(unit+1) == len(pdf2[spot]):
+                            if (unit + 1) == len(pdf2[spot]):
                                 break
-                        if(pdf2[spot][unit].isdigit()):
+                        if (pdf2[spot][unit].isdigit()):
                             stringer_num += pdf2[spot][unit]
                             temp_list.append(stringer_num)
                             stringer_num = ''
-                            unit+= 1
+                            unit += 1
                         else:
                             temp_list.append(stringer_num)
                             stringer_num = ''
@@ -282,7 +299,7 @@ for spot in range(len(pdf2)-1):
                         stringer_num = ''
                         unit += 1
                 else:
-                    stringer_num+= pdf2[spot][unit]
+                    stringer_num += pdf2[spot][unit]
                     temp_list.append(stringer_num)
                     stringer_num = ''
                     unit += 1
@@ -305,32 +322,60 @@ for spot in range(len(pdf2)-1):
         if any(char in temp_list[count] for char in date_words):
             print(pdf2[spot])
             print("in")
-            if pdf2[spot+1][1].isdigit():
+            if pdf2[spot + 1][1].isdigit():
                 spot += 1
                 year_list = []
                 for year in pdf2[spot]:
                     if year.isdigit():
                         year_list.append(year)
                 print(year_list)
+                income_statement['Years'] = year_list
                 spot += 1
-                end_num = (len(pdf2[spot])-1)
-                if pdf2[spot][end_num].isdigit():
-                    
+                end_num = (len(pdf2[spot]) - 1)
+                if pdf2[spot][end_num][0].isdigit() or pdf2[spot][end_num][0] == '-':
+                    running = True
+                    info_count = (len(pdf2[spot]) - 1)
+                    temp_num_list = []
+                    temp_info_name = ''
+                    while running:
+                        print(pdf2[spot][info_count])
+                        if pdf2[spot][info_count][0].isdigit() or pdf2[spot][info_count][0] == '-':
+                            temp_num_list.append(pdf2[spot][info_count])
+                            info_count -= 1
+
+                        elif not pdf2[spot][info_count][0].isdigit() or not pdf2[spot][info_count][0] == '-':
+                            if temp_num_list:
+                                temp_num_list = list(reversed(temp_num_list))
+                                nameBuild = True
+                                while nameBuild:
+                                    if info_count > 0:
+                                        temp_info_name += pdf2[spot][info_count]
+                                        info_count -= 1
+                                    else:
+                                        temp_info_name += pdf2[spot][info_count]
+                                        income_statement[temp_info_name] = temp_num_list
+                                        nameBuild = False
+                                        running = False
+                            else:
+                                spot += 1
+                                running = False
+                        else:
+                            info_count -= 1
+
                 fin_info_list.append(pdf2[spot])
 
         new_pdf.append(temp_list)
 
     spot += 1
 
-
-    #print(new_pdf)
+    # print(new_pdf)
 print(new_pdf)
 print(fin_info_list)
-        #print(unit)
-#print(new_pdf)
-    # Print the total expenditures and total revenues in the budget to the screen
-#print("Total Expenditures: {}".format(expense_df["Totals"].sum()))
-#print("Total Revenues: {}\n".format(revenue_df["Total"].sum()))
+print(income_statement)
+# print(new_pdf)
+# Print the total expenditures and total revenues in the budget to the screen
+# print("Total Expenditures: {}".format(expense_df["Totals"].sum()))
+# print("Total Revenues: {}\n".format(revenue_df["Total"].sum()))
 
 """writer = pd.ExcelWriter('PythonExport.xlsx', engine='xlsxwriter')
 expense_df.to_excel(writer, sheet_name='Sheet1', index=False)
