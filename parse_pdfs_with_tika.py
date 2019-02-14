@@ -325,14 +325,24 @@ while unit < len(new_pdf):
     print("In Loop")
     print(new_pdf[unit])
     if any(char in spot for char in date_words for spot in new_pdf[unit]):
-        print(new_pdf[unit + 1])
-        if new_pdf[unit + 1] and len(new_pdf[unit + 1]) > 1 and new_pdf[unit + 1][1].isdigit():
+        #print(new_pdf[unit + 1])
+        last_year_number = (len(new_pdf[unit+1]) - 1)
+        if len(new_pdf[unit + 1][last_year_number]) == 4 and new_pdf[unit + 1][1].isdigit():
             unit += 1
             year_list = []
             for year in new_pdf[unit]:
                 print(year)
                 if year.isdigit():
                     year_list.append(year)
+        elif new_pdf[unit + 1][last_year_number][1].isdigit() and new_pdf[unit + 1][0][0].isalpha():
+            abstract_info_count = len(new_pdf[unit+1])
+            if abstract_info_count > 1:
+                temp_abstract_list = []
+                while abstract_info_count > 0:
+                    temp_abstract_list.append([new_pdf[abstract_info_count]])
+                    abstract_info_count -= 1
+                income_statement[new_pdf[unit + 1]] = temp_abstract_list
+                
 
             income_statement['Years'] = year_list
             unit += 1
