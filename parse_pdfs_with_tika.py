@@ -171,20 +171,7 @@ pdf = pdf.replace('\n\n', '\n')
 
 
 pdf2 = pdf2.splitlines()
-"""
-pdf2 = [['27'], ['Table of Contents Alphabet Inc.'], ['Revenues'],\
- ['The following table presents our revenues, by segment and revenue source (in millions):'], \
- [' Year Ended December ', '31', ','], [' ', '2015', '  ', '2016', '  ', '2017'], ['Google segment      '],\
-  ['Google properties revenues  ', '52,357', '   ', '63,785', '   ', '77,788'],\
-   ["Google Network Members' properties revenues ", '15,033', '  ', '15,598', '  ', '17,587'],\
-    ['Google advertising revenues ', '67,390', '  ', '79,383', '  ', '95,375'],\
-     ['Google other revenues ', '7,154', '  ', '10,080', '  ', '14,277'],\
-      ['Google segment revenues  ', '74,544', '   ', '89,463', '   ', '109,652'], ['      '], ['Other Bets      '], \
-      ['Other Bets revenues  ', '445', '   ', '809', '   ', '1,203'], ['      '], \
-      ['Revenues  ', '74,989', '   ', '90,272', '   ', '110,855'], ['Google segment'], \
-      ['The following table presents our Google segment revenues (in millions), and changes in our aggregate paid\
-       clicks and cost-per-click (expressed as']]
-"""
+
 # print(pdf2)
 new_pdf = []
 fin_data = []
@@ -233,12 +220,7 @@ for spot in range(len(pdf2) - 1):
     stringer_num = ''
     if spot:
         unit = 0
-        # print(str(len(spot)))
         while unit < (len(pdf2[spot])):
-            #   print(str(unit))
-            #  print(str(spot[unit]))
-
-            # print(spot[unit])
 
             if (unit + 1) < (len(pdf2[spot])) and pdf2[spot][unit + 1].isdigit() and pdf2[spot][unit] == '(':
                 if stringer:
@@ -314,100 +296,130 @@ for spot in range(len(pdf2) - 1):
         if stringer:
             temp_list.append(stringer)
         if stringer_num:
-            temp_list.append((stringer_num))
+            temp_list.append(stringer_num)
     #print(temp_list)
     if temp_list:
-
-        if any(char in temp_list[count] for char in date_words):
-            print(pdf2[spot + 1])
-            if pdf2[spot+1] and len(pdf2[spot + 1]) > 1 and pdf2[spot + 1][1].isdigit():
-                spot += 1
-                year_list = []
-                for year in pdf2[spot]:
-                    #print(year)
-                    if year.isdigit():
-                        year_list.append(year)
-
-                income_statement['Years'] = year_list
-                spot += 1
-                temp_num_list = []
-                temp_info_name = ''
-                going = True
-                while going and spot <= (len(pdf2)-1):
-                    end_num = (len(pdf2[spot]) - 1)
-                    print(pdf2[spot])
-                    if pdf2[spot][end_num][0].isdigit() or pdf2[spot][end_num][0] == '-':
-                        running = True
-                        info_count = (len(pdf2[spot]) - 1)
-                        #print(pdf2[spot])
-                        while running:
-                            print(pdf2[spot])
-                            if pdf2[spot][info_count][0].isdigit() or pdf2[spot][info_count][0] == '-':
-                                temp_num_list.append(pdf2[spot][info_count])
-                                info_count -= 1
-                            elif pdf2[spot][info_count][0].isalpha():
-                                #print(pdf2[spot])
-                                if temp_num_list:
-                                    temp_num_list = list(reversed(temp_num_list))
-                                    nameBuild = True
-                                    while nameBuild:
-                                        if info_count > 0:
-                                            temp_info_name += pdf2[spot][info_count]
-                                            info_count -= 1
-                                        else:
-                                            temp_info_name += pdf2[spot][info_count]
-                                            income_statement[temp_info_name] = temp_num_list.copy()
-                                            #print(income_statement)
-                                            temp_info_name = ''
-                                            del temp_num_list[:]
-                                            nameBuild = False
-                                            spot += 1
-                                            if spot < len(pdf2)-1:
-                                                info_count = len(pdf2[spot]) - 1
-                                            else:
-                                                #print(pdf2[spot])
-                                                running = False
-                                else:
-                                    nameBuilder = True
-                                    while nameBuilder:
-                                        if info_count > 0:
-                                            temp_info_name += pdf2[spot][info_count]
-                                            info_count -= 1
-                                        else:
-                                            temp_info_name += pdf2[spot][info_count]
-                                            income_statement[temp_info_name] = temp_num_list.copy()
-                                            temp_info_name = ''
-                                            nameBuilder = False
-                                            spot += 1
-                                            if spot < len(pdf2)-1:
-                                                info_count = len(pdf2[spot]) - 1
-                                            else:
-                                                #print(pdf2[spot])
-                                                running = False
-
-                            else:
-                                if info_count > 0:
-                                    info_count -= 1
-                                else:
-                                    spot += 1
-                                    running = False
-                    else:
-                        if spot < (len(pdf2) - 1):
-                            last_num = len(pdf2[spot + 1]) - 1
-                            if pdf2[spot + 1][last_num][0].isdigit() or pdf2[spot + 1][last_num][0] == '-':
-                                title_name = str(pdf2[spot])
-                                income_statement[title_name] = []
-                                spot += 1
-                        else:
-                            going = False
-            else:
-                spot += 1
         new_pdf.append(temp_list)
-
     spot += 1
 
     # print(new_pdf)
+    """
+new_pdf = [['27'], ['Table of Contents Alphabet Inc.'], ['Revenues'], ['The following table presents our revenues, by\
+ segment and revenue source (in millions):'], [' Year Ended December ', '31', ','], \
+           [' ', '2015', '  ', '2016', '  ', '2017'], ['Google segment      '], \
+           ['Google properties revenues  ', '52,357', '   ', '63,785', '   ', '77,788'],\
+           ["Google Network Members' properties revenues ", '15,033', '  ', '15,598', '  ', '17,587'],\
+           ['Google advertising revenues ', '67,390', '  ', '79,383', '  ', '95,375'], \
+           ['Google other revenues ', '7,154', '  ', '10,080', '  ', '14,277'],\
+           ['Google segment revenues  ', '74,544', '   ', '89,463', '   ', '109,652'], ['      '], ['Other Bets      '],\
+           ['Other Bets revenues  ', '445', '   ', '809', '   ', '1,203'], ['      '], \
+           ['Revenues  ', '74,989', '   ', '90,272', '   ', '110,855'], ['Google segment'],\
+           ["Bait"],['36'],
+           ['The following table presents our Google segment revenues (in millions), and changes in our aggregate paid \
+           clicks and cost-per-click (expressed as']]"""
+
 print(new_pdf)
+unit = 0
+print(str(len(new_pdf)))
+while unit < len(new_pdf):
+    print("In Loop")
+    print(new_pdf[unit])
+    if any(char in spot for char in date_words for spot in new_pdf[unit]):
+        print(new_pdf[unit + 1])
+        if new_pdf[unit + 1] and len(new_pdf[unit + 1]) > 1 and new_pdf[unit + 1][1].isdigit():
+            unit += 1
+            year_list = []
+            for year in new_pdf[unit]:
+                print(year)
+                if year.isdigit():
+                    year_list.append(year)
+
+            income_statement['Years'] = year_list
+            unit += 1
+            temp_num_list = []
+            temp_info_name = ''
+            going = True
+            while going and unit <= (len(new_pdf) - 1):
+                end_num = (len(new_pdf[unit]) - 1)
+                # print(pdf2[spot])
+                print("outer " + str(len(new_pdf[unit])) + str(new_pdf[unit][0][0]))
+                if (new_pdf[unit][end_num][0].isdigit() or new_pdf[unit][end_num][0] == '-') and len(new_pdf[unit]) > 1:
+                    running = True
+                    info_count = (len(new_pdf[unit]) - 1)
+                    # print(pdf2[spot])
+                    print("Out")
+                    while running and info_count >= 0:
+                        print(new_pdf[unit])
+                        if new_pdf[unit][info_count][0].isdigit() or new_pdf[unit][info_count][0] == '-':
+                            temp_num_list.append(new_pdf[unit][info_count])
+                            info_count -= 1
+                            print("In " + str(info_count))
+                        elif new_pdf[unit][info_count][0].isalpha():
+                            # print(pdf2[spot])
+                            if temp_num_list:
+                                temp_num_list = list(reversed(temp_num_list))
+                                nameBuild = True
+                                while nameBuild:
+                                    if info_count > 0:
+                                        temp_info_name += new_pdf[unit][info_count]
+                                        info_count -= 1
+                                    else:
+                                        temp_info_name += new_pdf[unit][info_count]
+                                        income_statement[temp_info_name] = temp_num_list.copy()
+                                        # print(income_statement)
+                                        temp_info_name = ''
+                                        del temp_num_list[:]
+                                        nameBuild = False
+                                        unit += 1
+                                        if unit < len(new_pdf) - 1:
+                                            info_count = len(new_pdf[unit]) - 1
+                                        else:
+                                            # print(pdf2[spot])
+                                            running = False
+                            else:
+                                nameBuilder = True
+                                while nameBuilder:
+                                    if info_count > 0:
+                                        temp_info_name += new_pdf[unit][info_count]
+                                        info_count -= 1
+                                    else:
+                                        temp_info_name += new_pdf[unit][info_count]
+                                        income_statement[temp_info_name] = temp_num_list.copy()
+                                        temp_info_name = ''
+                                        nameBuilder = False
+                                        unit += 1
+                                        if unit < (len(new_pdf) - 1):
+                                            info_count = len(new_pdf[unit]) - 1
+                                        else:
+                                            # print(pdf2[spot])
+                                            running = False
+
+                        else:
+                            if info_count > 0:
+                                info_count -= 1
+                            else:
+                                unit += 1
+                                running = False
+                else:
+                    if unit < (len(new_pdf) - 1):
+                        last_num = len(new_pdf[unit + 1]) - 1
+                        if new_pdf[unit + 1][last_num][0].isdigit() or new_pdf[unit + 1][last_num][0] == '-':
+                            title_name = str(new_pdf[unit])
+                            income_statement[title_name] = []
+                            unit += 1
+                        else:
+                            going = False
+                            unit += 1
+                    else:
+                        going = False
+                        unit += 1
+
+        else:
+            print("No Number found yet")
+            unit += 1
+    else:
+        unit += 1
+
 print(fin_info_list)
 print(income_statement)
 # print(new_pdf)
