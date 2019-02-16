@@ -40,7 +40,7 @@ char_list = [',', '.', '/', "'", '"', '(', ')', '[', ']', '|', '-', 'a', 'A', 'b
              'Y', 'z', 'Z']
 spot = 0
 income_statement = {}
-pdf2 = [['shall be expressly set forth by specific reference in such filing.'], ['24'], ['Table of Contents Alphabet Inc.'], ['ITEM ', '6.', ' SELECTED FINANCIAL DATA'], ['The following selected consolidated financial data should be read in conjunction with Item ', '7', ' “Management’s Discussion and Analysis of Financial'], ['Condition and Results of Operations” and our consolidated financial statements and the related notes appearing in Item ', '8', ' “Financial Statements and'], ['Supplementary Data” of this Annual Report on Form ', '10', '-K. The historical results are not necessarily indicative of the results to be expected in any future'], ['period.'], [' Year Ended December ', '31', ','], [' ', '2013', '  ', '2014', '  ', '2015', '  ', '2016', '  ', '2017'], [' (in millions, except per share amounts)'], ['Consolidated Statements of Income Data:'], ['Revenues  ', '55,519', '   ', '66,001', '   ', '74,989', '   ', '90,272', '   ', '110,855'], ['Income from operations ', '15,403', '  ', '16,496', '  ', '19,360', '  ', '23,716', '  ', '26,146'], ['Net income from continuing operations ', '13,160', '  ', '13,620', '  ', '16,348', '  ', '19,478', '  ', '12,662'], ['Net income (loss) from discontinued operations ', '-427', '  ', '516', '  ', '0', '  ', '0', '  ', '0'], ['Net income ', '12,733', '  ', '14,136', '  ', '16,348', '  ', '19,478', '  ', '12,662'], ['          '], ['Basic net income (loss) per share of Class A and B common stock:'], ['Continuing operations  ', '19.77', '   ', '20.15', '   ', '23.11', '   ', '28.32', '   ', '18.27'], ['Discontinued operations ', '-0.64', '  ', '0.76', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Basic net income per share of Class A and B'], ['common stock  ', '19.13', '   ', '20.91', '   ', '23.11', '   ', '28.32', '   ', '18.27'], ['          '], ['Basic net income (loss) per share of Class C capital stock:'], ['Continuing operations  ', '19.77', '   ', '20.15', '   ', '24.63', '   ', '28.32', '   ', '18.27'], ['Discontinued operations ', '-0.64', '  ', '0.76', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Basic net income per share of Class C capital stock  ', '19.13', '   ', '20.91', '   ', '24.63', '   ', '28.32', '   ', '18.27'], ['          '], ['Diluted net income (loss) per share of Class A and B common stock:'], ['Continuing operations  ', '19.42', '   ', '19.82', '   ', '22.84', '   ', '27.85', '   ', '18.00'], ['Discontinued operations ', '-0.63', '  ', '0.75', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Diluted net income per share of Class A and B'], ['common stock  ', '18.79', '   ', '20.57', '   ', '22.84', '   ', '27.85', '   ', '18.00'], ['          '], ['Diluted net income (loss) per share of Class C capital stock:'], ['Continuing operations  ', '19.42', '   ', '19.82', '   ', '24.34', '   ', '27.85', '   ', '18.00'], ['Discontinued operations ', '-0.63', '  ', '0.75', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Diluted net income per share of Class C capital stock  ', '18.79', '   ', '20.57', '   ', '24.34', '   ', '27.85', '   ', '18.00'], [' As of December ', '31', ','], [' ', '2013', '  ', '2014', '  ', '2015', '  ', '2016', '  ', '2017'], [' (in millions)'], ['Consolidated Balance Sheet Data:'], ['Cash, cash equivalents, and marketable securities  ', '58,717', '   ', '64,395', '   ', '73,066', '   ', '86,333', '   ', '101,871'], ['Total assets  ', '109,050', '   ', '129,187', '   ', '147,461', '   ', '167,497', '   ', '197,295'], ['Total long-term liabilities  ', '6,165', '   ', '8,548', '   ', '7,820', '   ', '11,705', '   ', '20,610'], ['Total stockholders’ equity  ', '86,977', '   ', '103,860', '   ', '120,331', '   ', '139,036', '   ', '152,502'], ['25'], ['Table of Contents Alphabet Inc.']]
+
 for spot in range(len(pdf2) - 1):
     # print(spot)
     # spot = re.sub(' +', ' ', spot)
@@ -130,22 +130,36 @@ for spot in range(len(pdf2) - 1):
 
     # print(new_pdf)
 
-
+new_pdf = [['shall be expressly set forth by specific reference in such filing.'], ['24'], ['Table of Contents Alphabet Inc.'], ['ITEM ', '6.', ' SELECTED FINANCIAL DATA'], ['The following selected consolidated financial data should be read in conjunction with Item ', '7', ' “Management’s Discussion and Analysis of Financial'], ['Condition and Results of Operations” and our consolidated financial statements and the related notes appearing in Item ', '8', ' “Financial Statements and'], ['Supplementary Data” of this Annual Report on Form ', '10', '-K. The historical results are not necessarily indicative of the results to be expected in any future'], ['period.'], [' Year Ended December ', '31', ','], [' ', '2013', '  ', '2014', '  ', '2015', '  ', '2016', '  ', '2017'], [' (in millions, except per share amounts)'], ['Consolidated Statements of Income Data:'], ['Revenues  ', '55,519', '   ', '66,001', '   ', '74,989', '   ', '90,272', '   ', '110,855'], ['Income from operations ', '15,403', '  ', '16,496', '  ', '19,360', '  ', '23,716', '  ', '26,146'], ['Net income from continuing operations ', '13,160', '  ', '13,620', '  ', '16,348', '  ', '19,478', '  ', '12,662'], ['Net income (loss) from discontinued operations ', '-427', '  ', '516', '  ', '0', '  ', '0', '  ', '0'], ['Net income ', '12,733', '  ', '14,136', '  ', '16,348', '  ', '19,478', '  ', '12,662'], ['          '], ['Basic net income (loss) per share of Class A and B common stock:'], ['Continuing operations  ', '19.77', '   ', '20.15', '   ', '23.11', '   ', '28.32', '   ', '18.27'], ['Discontinued operations ', '-0.64', '  ', '0.76', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Basic net income per share of Class A and B'], ['common stock  ', '19.13', '   ', '20.91', '   ', '23.11', '   ', '28.32', '   ', '18.27'], ['          '], ['Basic net income (loss) per share of Class C capital stock:'], ['Continuing operations  ', '19.77', '   ', '20.15', '   ', '24.63', '   ', '28.32', '   ', '18.27'], ['Discontinued operations ', '-0.64', '  ', '0.76', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Basic net income per share of Class C capital stock  ', '19.13', '   ', '20.91', '   ', '24.63', '   ', '28.32', '   ', '18.27'], ['          '], ['Diluted net income (loss) per share of Class A and B common stock:'], ['Continuing operations  ', '19.42', '   ', '19.82', '   ', '22.84', '   ', '27.85', '   ', '18.00'], ['Discontinued operations ', '-0.63', '  ', '0.75', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Diluted net income per share of Class A and B'], ['common stock  ', '18.79', '   ', '20.57', '   ', '22.84', '   ', '27.85', '   ', '18.00'], ['          '], ['Diluted net income (loss) per share of Class C capital stock:'], ['Continuing operations  ', '19.42', '   ', '19.82', '   ', '24.34', '   ', '27.85', '   ', '18.00'], ['Discontinued operations ', '-0.63', '  ', '0.75', '  ', '0.00', '  ', '0.00', '  ', '0.00'], ['Diluted net income per share of Class C capital stock  ', '18.79', '   ', '20.57', '   ', '24.34', '   ', '27.85', '   ', '18.00'], [' As of December ', '31', ','], [' ', '2013', '  ', '2014', '  ', '2015', '  ', '2016', '  ', '2017'], [' (in millions)'], ['Consolidated Balance Sheet Data:'], ['Cash, cash equivalents, and marketable securities  ', '58,717', '   ', '64,395', '   ', '73,066', '   ', '86,333', '   ', '101,871'], ['Total assets  ', '109,050', '   ', '129,187', '   ', '147,461', '   ', '167,497', '   ', '197,295'], ['Total long-term liabilities  ', '6,165', '   ', '8,548', '   ', '7,820', '   ', '11,705', '   ', '20,610'], ['Total stockholders’ equity  ', '86,977', '   ', '103,860', '   ', '120,331', '   ', '139,036', '   ', '152,502'], ['25'], ['Table of Contents Alphabet Inc.']]
 print(new_pdf)
 company_data = {}
-def get_title_info(beg_index, end_index,pdf):
-    first_half_running = True
-    beg_count = beg_index
-    while first_half_running and beg_count < end_index:
-        end_num = (len(pdf[beg_count]) - 1)
-
-
-
-
+def get_all_info(beg_index, end_index, date_line, pdf):
+    # gets title and dates of data set
+    temp_date_line = date_line + 1
+    end_num = len(pdf[temp_date_line]) - 1
+    if pdf[temp_date_line][end_num].isdigit() and len(pdf[temp_date_line][end_num]) == 4:
+        temp_date_list = []
+        for year in pdf[temp_date_line]:
+            if year.isdigit():
+                temp_date_list.append(year)
+        date_name = ''
+        for word in pdf[date_line]:
+            date_name += word
+        company_data[date_name] = temp_date_list
+        find_data_beg = temp_date_line + 1
+        for check_data in range(3):
+            print(pdf[find_data_beg])
+            end_num = len(pdf[find_data_beg]) - 1
+            if pdf[find_data_beg][end_num].isdigit() and pdf[find_data_beg][0][0].isalpha():
+                # call new function to add data into the dictionary
+                print(pdf[find_data_beg])
+            else:
+                find_data_beg += 1
 def check_if_valid_data(pdf,pdf_section):
     # checks if data has valid data in it
     # Find begning of page and end and notes all indexs between the two
     first_running = True
+    date_line = pdf_section
     start_index = pdf_section
     beg_index = 0
     end_index = 0
@@ -174,7 +188,7 @@ def check_if_valid_data(pdf,pdf_section):
                 pdf_section -= 1
         else:
             pdf_section -= 1
-    get_title_info(beg_index,end_index,pdf)
+    get_all_info(beg_index, end_index, date_line, pdf)
 
 def extract_data_from_pdf(pdf):
     # pulls financial data from pdf list
