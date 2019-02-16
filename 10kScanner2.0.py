@@ -129,22 +129,17 @@ for spot in range(len(pdf2) - 1):
     spot += 1
 
     # print(new_pdf)
-    """
-new_pdf = [['27'], ['Table of Contents Alphabet Inc.'], ['Revenues'], ['The following table presents our revenues, by\
- segment and revenue source (in millions):'], [' Year Ended December ', '31', ','], \
-           [' ', '2015', '  ', '2016', '  ', '2017'], ['Google segment      '], \
-           ['Google properties revenues  ', '52,357', '   ', '63,785', '   ', '77,788'],\
-           ["Google Network Members' properties revenues ", '15,033', '  ', '15,598', '  ', '17,587'],\
-           ['Google advertising revenues ', '67,390', '  ', '79,383', '  ', '95,375'], \
-           ['Google other revenues ', '7,154', '  ', '10,080', '  ', '14,277'],\
-           ['Google segment revenues  ', '74,544', '   ', '89,463', '   ', '109,652'], ['      '], ['Other Bets      '],\
-           ['Other Bets revenues  ', '445', '   ', '809', '   ', '1,203'], ['      '], \
-           ['Revenues  ', '74,989', '   ', '90,272', '   ', '110,855'], ['Google segment'],\
-           ["Bait"],['36'],
-           ['The following table presents our Google segment revenues (in millions), and changes in our aggregate paid \
-           clicks and cost-per-click (expressed as']]"""
+
 
 print(new_pdf)
+company_data = {}
+def get_title_info(beg_index, end_index,pdf):
+    first_half_running = True
+    beg_count = beg_index
+    while first_half_running and beg_count < end_index:
+        end_num = (len(pdf[beg_count]) - 1)
+
+
 
 
 def check_if_valid_data(pdf,pdf_section):
@@ -169,7 +164,8 @@ def check_if_valid_data(pdf,pdf_section):
                             #print(pdf[pdf_section])
                             last_running = False
                             end_index = pdf_section - 1
-                            return(beg_index,end_index)
+                            #return(beg_index,end_index)
+                            break
                         else:
                             pdf_section += 1
                     else:
@@ -178,7 +174,7 @@ def check_if_valid_data(pdf,pdf_section):
                 pdf_section -= 1
         else:
             pdf_section -= 1
-
+    get_title_info(beg_index,end_index,pdf)
 
 def extract_data_from_pdf(pdf):
     # pulls financial data from pdf list
